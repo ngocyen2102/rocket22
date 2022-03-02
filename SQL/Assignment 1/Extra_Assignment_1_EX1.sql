@@ -1,0 +1,18 @@
+CREATE DATABASE fresher_management;
+USE fresher_management;
+
+CREATE TABLE Trainee(
+TraineeID 		INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+Full_Name 		VARCHAR(120) NOT NULL,
+Birth_Date 		DATE NOT NULL,
+Gender 		ENUM ('Male', 'Female', 'Unknown') NOT NULL,
+ET_IQ 		INT CHECK(ET_IQ BETWEEN 0 AND 20) NOT NULL,
+ET_Gmath 		INT CHECK(ET_Gmath BETWEEN 0 AND 20) NOT NULL, 
+ET_English 		INT CHECK(ET_English BETWEEN 0 AND 50) NOT NULL, 
+Training_Class 	VARCHAR(10) NOT NULL,
+EvaluationNote 	VARCHAR(3000)
+);
+
+ALTER TABLE Trainee
+ADD VTI_Account 	VARCHAR(50) UNIQUE KEY NOT NULL;
+

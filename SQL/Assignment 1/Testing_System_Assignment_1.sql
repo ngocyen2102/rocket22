@@ -1,0 +1,81 @@
+CREATE DATABASE TestingSystem;
+USE TestingSystem;
+
+CREATE TABLE `Department`(
+DepartmentID 	INT PRIMARY KEY AUTO_INCREMENT NOT NULL ,
+DepartmentName 	VARCHAR(50) UNIQUE KEY NOT NULL
+);
+
+CREATE TABLE `Position`(
+PositionID 		INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+PositionName 	ENUM('Dev', 'Test', 'Scrum Master', 'PM') NOT NULL
+);
+
+CREATE TABLE `Account`(
+AccountID 		INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+Email 		VARCHAR(50),
+Username 		VARCHAR(50) UNIQUE KEY NOT NULL,
+DepartmentID 	INT NOT NULL,
+PositionID 		INT NOT NULL,
+CreateDate 		DATE NOT NULL,
+FOREIGN KEY (DepartmentID) REFERENCES `Department` (DepartmentID),
+FOREIGN KEY (PositionID) REFERENCES `Position` (PositionID)
+);
+
+CREATE TABLE `Group`(
+GroupID 		INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+GroupName 		VARCHAR(50) UNIQUE KEY NOT NULL,
+CreatorID 		INT NOT NULL,
+CreateDate 		DATE NOT NULL
+);
+
+CREATE TABLE `GroupAccount`(
+GroupID 		INT NOT NULL,
+AccountID 		INT NOT NULL,
+JoinDate 		DATE NOT NULL,
+FOREIGN KEY (GroupID) REFERENCES `Group` (GroupID),
+FOREIGN KEY (AccountID) REFERENCES `Account` (AccountID)
+);
+
+CREATE TABLE `TypeQuestion`(
+TypeID 	INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+TypeName 	ENUM('Essay', 'Multiple-Choice') UNIQUE KEY NOT NULL
+);
+
+CREATE TABLE `CategoryQuestion`(
+CategoryID 		INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+CategoryName 	VARCHAR(30) UNIQUE KEY NOT NULL
+);
+
+CREATE TABLE `Question`(
+QuestionID 		INT PRIMARY KEY NOT NULL,
+Content 		VARCHAR(3000) NOT NULL,
+CategoryID		INT NOT NULL,
+TypeID 		INT NOT NULL,
+CreateDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE `Answer`(
+AnswerID 		INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+Content 		VARCHAR(255),
+QuestionID 		INT,
+isCorrect 		ENUM('True', 'False'),
+FOREIGN KEY (QuestionID) REFERENCES `Question`(QuestionID)
+);
+CREATE TABLE `Exam`(
+ExamID 		INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+`Code` 		VARCHAR(30),
+Title 		VARCHAR(100),
+CategoryID 		INT,
+Duration 		INT,
+CreatorID 		INT UNIQUE KEY NOT NULL,
+CreateDate 		TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (CategoryID) REFERENCES `CategoryQuestion`(CategoryID)
+);
+
+CREATE TABLE `ExamQuestion`(
+ExamID 		INT,
+QuestionID 		INT,
+FOREIGN KEY (ExamID) REFERENCES `Exam`(ExamID),
+FOREIGN KEY (QuestionID) REFERENCES `Question`(QuestionID)
+);

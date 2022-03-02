@@ -1,0 +1,12 @@
+Excercise 2:
+-	ID 			INT PRIMARY KEY AUTO_INCREMENT
+-	Name 			VARCHAR(120)
+-	Code 			VARCHAR(5)
+-	ModifiedDate 	DATETIME
+
+Exercise 3:
+-	ID 			INT PRIMARY KEY AUTO_INCREMENT
+-	Name 			VARCHAR(120)
+-	BirthDate		DATE
+-	Gender		ENUM(0, 1, “NULL”)
+-	isDeletedFlag	ENUM(0,1)
